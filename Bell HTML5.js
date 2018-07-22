@@ -457,7 +457,7 @@ p.nominalBounds = new cjs.Rectangle(-120.4,-40.5,291.4,258.1);
 	this.shape.setTransform(42.5,-26.5);
 
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f().s("#FF6600").ss(1,1,1).p("AmNh9IMbJGAmN0WIMbbfAmNrNIMbSWAmLUXIMZtOAmLLJIMZkA");
+	this.shape_1.graphics.f().s("#FF6600").ss(1,1,1).p("AmNh9IMbJGAmNrNIMbSWAmN0WIMbbfAmLLJIMZkAAmLUXIMZtO");
 	this.shape_1.setTransform(-40.3,-46.2);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).to({state:[{t:this.shape_1},{t:this.shape}]},14).wait(1));
@@ -573,11 +573,11 @@ p.nominalBounds = new cjs.Rectangle(-84.5,-181.5,179.3,270);
 	this.shape.setTransform(42.5,-51);
 
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f().s("#FF6600").ss(1,1,1).p("AmNh9IMbBdAmN0WIMbT2AmNrNIMbKtAmLUXIMZ03AmLLJIMZrp");
+	this.shape_1.graphics.f().s("#FF6600").ss(1,1,1).p("AmNh9IMbBdAmNrNIMbKtAmN0WIMbT2AmLLJIMZrpAmLUXIMZ03");
 	this.shape_1.setTransform(-40.3,-46.2);
 
 	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f().s("#FF6600").ss(1,1,1).p("AmNh9IMbBdAmNrNIMbKtAmN0WIMbT2AmLLJIMZrpAmLUXIMZ03");
+	this.shape_2.graphics.f().s("#FF6600").ss(1,1,1).p("AmNh9IMbBdAmN0WIMbT2AmNrNIMbKtAmLUXIMZ03AmLLJIMZrp");
 	this.shape_2.setTransform(-40.3,-46.2);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).to({state:[{t:this.shape_2},{t:this.shape}]},14).wait(1));
@@ -658,7 +658,7 @@ p.nominalBounds = new cjs.Rectangle(-84.5,-181.5,171,270);
 	this.shape.setTransform(42.5,-75.5);
 
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f().s("#FF6600").ss(1,1,1).p("AmNh9IMbmNAmNrNIMbDDAmN0WIMbMMAmLUXIMZ8hAmLLJIMZzT");
+	this.shape_1.graphics.f().s("#FF6600").ss(1,1,1).p("AmNh9IMbmNAmN0WIMbMMAmNrNIMbDDAmLLJIMZzTAmLUXIMZ8h");
 	this.shape_1.setTransform(-40.3,-46.2);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).wait(15));
@@ -739,7 +739,7 @@ p.nominalBounds = new cjs.Rectangle(-84.5,-181.5,180.6,270);
 	this.shape.setTransform(42.5,-100);
 
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f().s("#FF6600").ss(1,1,1).p("AmN0WIMbEiAmNrNIMbknAmNh9IMbt3AmLLJIMZ69AmLUXMAMZgkL");
+	this.shape_1.graphics.f().s("#FF6600").ss(1,1,1).p("AmNrNIMbknAmN0WIMbEiAmNh9IMbt3AmLUXMAMZgkLAmLLJIMZ69");
 	this.shape_1.setTransform(-40.3,-46.2);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).wait(15));
@@ -1010,12 +1010,13 @@ p.nominalBounds = new cjs.Rectangle(-84.5,-181.5,171,270);
 			// qubit.height = 20;
 			this.mc.addChild(this.qubit_mc);
 			this.qubit_mc.addEventListener("pressmove", this.dragMe.bind(this));
-			this.mc.addEventListener("mousedown", this.moveMe.bind(this));
+			this.mc.addEventListener("mousedown", this.clickMe.bind(this));
 		}
 		
-		Diagram.prototype.moveMe = function (evt) {
+		Diagram.prototype.clickMe = function (evt) {
 			p = this.mc.globalToLocal(evt.stageX, evt.stageY);
 			R = Diagram.R
+			r = Math.sqrt(p.x * p.x + p.y * p.y);
 			if (r < R) {
 				this.qubit_mc.x = p.x  
 				this.qubit_mc.y = p.y
@@ -1122,7 +1123,7 @@ lib.properties = {
 	id: '8C39BE9F9F51BB41BB36283CB6B917EE',
 	width: 550,
 	height: 400,
-	fps: 60,
+	fps: 24,
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [],
