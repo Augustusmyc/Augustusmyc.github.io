@@ -1,146 +1,91 @@
-<title>Drag and drop</title>
-<style type="text/css">
-li {
-  list-style: none;
+<!DOCTYPE html>
+<!--
+	NOTES:
+	1. All tokens are represented by '$' sign in the template.
+	2. You can write your code only wherever mentioned.
+	3. All occurrences of existing tokens will be replaced by their appropriate values.
+	4. Blank lines will be removed automatically.
+	5. Remove unnecessary comments before creating your template.
+-->
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="authoring-tool" content="Adobe_Animate_CC">
+<title>Bell HTML5</title>
+<!-- write your code here -->
+<script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+<script src="Bell HTML5.js?1532268338693"></script>
+<script>
+var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+function init() {
+	canvas = document.getElementById("canvas");
+	anim_container = document.getElementById("animation_container");
+	dom_overlay_container = document.getElementById("dom_overlay_container");
+	var comp=AdobeAn.getComposition("8C39BE9F9F51BB41BB36283CB6B917EE");
+	var lib=comp.getLibrary();
+	createjs.MotionGuidePlugin.install();
+	handleComplete({},comp);
 }
-
-li a {
-  text-decoration: none;
-  color: #000;
-  margin: 10px;
-  width: 150px;
-  border: 3px dashed #999;
-  background: #eee;
-  padding: 10px;
-  display: block;
+function handleComplete(evt,comp) {
+	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+	var lib=comp.getLibrary();
+	var ss=comp.getSpriteSheet();
+	exportRoot = new lib.BellHTML5();
+	stage = new lib.Stage(canvas);	
+	//Registers the "tick" event listener.
+	fnStartAnimation = function() {
+		stage.addChild(exportRoot);
+		createjs.Ticker.setFPS(lib.properties.fps);
+		createjs.Ticker.addEventListener("tick", stage);
+	}	    
+	//Code to support hidpi screens and responsive scaling.
+	function makeResponsive(isResp, respDim, isScale, scaleType) {		
+		var lastW, lastH, lastS=1;		
+		window.addEventListener('resize', resizeCanvas);		
+		resizeCanvas();		
+		function resizeCanvas() {			
+			var w = lib.properties.width, h = lib.properties.height;			
+			var iw = window.innerWidth, ih=window.innerHeight;			
+			var pRatio = window.devicePixelRatio || 1, xRatio=iw/w, yRatio=ih/h, sRatio=1;			
+			if(isResp) {                
+				if((respDim=='width'&&lastW==iw) || (respDim=='height'&&lastH==ih)) {                    
+					sRatio = lastS;                
+				}				
+				else if(!isScale) {					
+					if(iw<w || ih<h)						
+						sRatio = Math.min(xRatio, yRatio);				
+				}				
+				else if(scaleType==1) {					
+					sRatio = Math.min(xRatio, yRatio);				
+				}				
+				else if(scaleType==2) {					
+					sRatio = Math.max(xRatio, yRatio);				
+				}			
+			}			
+			canvas.width = w*pRatio*sRatio;			
+			canvas.height = h*pRatio*sRatio;
+			canvas.style.width = dom_overlay_container.style.width = anim_container.style.width =  w*sRatio+'px';				
+			canvas.style.height = anim_container.style.height = dom_overlay_container.style.height = h*sRatio+'px';
+			stage.scaleX = pRatio*sRatio;			
+			stage.scaleY = pRatio*sRatio;			
+			lastW = iw; lastH = ih; lastS = sRatio;            
+			stage.tickOnUpdate = false;            
+			stage.update();            
+			stage.tickOnUpdate = true;		
+		}
+	}
+	makeResponsive(false,'both',false,1);	
+	AdobeAn.compositionLoaded(lib.properties.id);
+	fnStartAnimation();
 }
-
-*[draggable=true] {
-  -moz-user-select:none;
-  -khtml-user-drag: element;
-  cursor: move;
-}
-
-*:-khtml-drag {
-  background-color: rgba(238,238,238, 0.5);
-}
-
-li a:hover:after {
-  content: ' (drag me)';
-}
-
-ul {
-  margin-left: 200px;
-  min-height: 300px;
-}
-
-li.over {
-  border-color: #333;
-  background: #ccc;
-}
-
-#bin {
-  background: url(images/bin.jpg) top right no-repeat;
-  height: 250px;
-  width: 166px;
-  float: left;
-  border: 5px solid #000;
-  position: relative;
-  margin-top: 0;
-}
-
-#bin.over {
-  background: url(images/bin.jpg) top left no-repeat;
-}
-
-#bin p {
-  font-weight: bold;
-  text-align: center;
-  position: absolute;
-  bottom: 20px;
-  width: 166px;
-  font-size: 32px;
-  color: #fff;
-  text-shadow: #000 2px 2px 2px;
-}
-</style>
-<article>
-  <p>Drag the list items over the dustbin, and drop them to have the bin eat the item</p>
-  <div id="bin"></div>
-  <ul>
-    <li><a id="one" href="#">one</a></li>
-    <li><a href="#" id="two">two</a></li>
-    <li><a href="#" id="three">three</a></li>
-    <li><a href="#" id="four">four</a></li>
-    <li><a href="#" id="five">five</a></li>
-  </ul>
-</article>
-  <script>
-
-  var eat = ['yum!', 'gulp', 'burp!', 'nom'];
-  var yum = document.createElement('p');
-  var msie = /*@cc_on!@*/0;
-  yum.style.opacity = 1;
-
-  var links = document.querySelectorAll('li > a'), el = null;
-  for (var i = 0; i < links.length; i++) {
-    el = links[i];
-  
-    el.setAttribute('draggable', 'true');
-  
-    addEvent(el, 'dragstart', function (e) {
-      e.dataTransfer.effectAllowed = 'copy'; // only dropEffect='copy' will be dropable
-      e.dataTransfer.setData('Text', this.id); // required otherwise doesn't work
-    });
-  }
-
-  var bin = document.querySelector('#bin');
-
-  addEvent(bin, 'dragover', function (e) {
-    if (e.preventDefault) e.preventDefault(); // allows us to drop
-    this.className = 'over';
-    e.dataTransfer.dropEffect = 'copy';
-    return false;
-  });
-
-  // to get IE to work
-  addEvent(bin, 'dragenter', function (e) {
-    this.className = 'over';
-    return false;
-  });
-
-  addEvent(bin, 'dragleave', function () {
-    this.className = '';
-  });
-
-  addEvent(bin, 'drop', function (e) {
-    if (e.stopPropagation) e.stopPropagation(); // stops the browser from redirecting...why???
-
-    var el = document.getElementById(e.dataTransfer.getData('Text'));
-    
-    el.parentNode.removeChild(el);
-
-    // stupid nom text + fade effect
-    bin.className = '';
-    yum.innerHTML = eat[parseInt(Math.random() * eat.length)];
-
-    var y = yum.cloneNode(true);
-    bin.appendChild(y);
-
-    setTimeout(function () {
-      var t = setInterval(function () {
-        if (y.style.opacity <= 0) {
-          if (msie) { // don't bother with the animation
-            y.style.display = 'none';
-          }
-          clearInterval(t); 
-        } else {
-          y.style.opacity -= 0.1;
-        }
-      }, 50);
-    }, 250);
-
-    return false;
-  });
-
-  </script>
+</script>
+<!-- write your code here -->
+</head>
+<body onload="init();" style="margin:0px;">
+	<div id="animation_container" style="background-color:rgba(0, 0, 0, 1.00); width:550px; height:400px">
+		<canvas id="canvas" width="550" height="400" style="position: absolute; display: block; background-color:rgba(0, 0, 0, 1.00);"></canvas>
+		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:550px; height:400px; position: absolute; left: 0px; top: 0px; display: block;">
+		</div>
+	</div>
+</body>
+</html>
