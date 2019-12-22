@@ -35,9 +35,7 @@ background-color: black;
 	您的浏览器不支持audio标签
 </audio>
 </div>
-
-<a name="top" id="top"></a>
-
+	
 <button class="prev" >上一页</button>
 
 <div class="item active">
@@ -102,12 +100,12 @@ background-color: black;
    var nowPage = 0; //定义当前页，默认值为0；
    var pageNum = 2; //总页数
    var aIem = document.getElementsByClassName("item");
-   var audio = document.getElementsByTagName('audio')[0];
+   //var audio = document.getElementsByTagName('audio')[0];
    
    //下一页
    next[0].onclick = function () {			
          nowPage++;
-	 console.log(audio);
+	 //console.log(audio);
 	 //audio.src = "song.mp3";
          //audio.paused && (audio.play());
 <!-- 		 if(nowPage == pageNum){
