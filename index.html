@@ -86,7 +86,7 @@ background-color: black;
 
 <button class="next" >下一页</button>
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
    //封装函数、图片显示的部分、传入获取到的div，和被点击的序号
    function toggle(eles, active) {
       for(var i = eles.length; i--;) {
@@ -101,17 +101,14 @@ background-color: black;
    var nowPage = 0; //定义当前页，默认值为0；
    var pageNum = 2; //总页数
    var aIem = document.getElementsByClassName("item");
-   //var audio = document.getElementsByTagName('audio')[0];
+   var audio = document.getElementsByTagName('audio')[0];
    
    //下一页
    next[0].onclick = function () {			
          nowPage++;
-	 //console.log(audio);
+	 console.log(audio);
 	 //audio.src = "song.mp3";
-         //audio.paused && (audio.play());
-<!-- 		 if(nowPage == pageNum){
-			window.location.replace('index2.html')		
-		}	 -->	 
+         //audio.paused && (audio.play());	 
          nowPage %= pageNum;
          toggle(aIem,nowPage);
    }
@@ -123,7 +120,7 @@ background-color: black;
       }
       toggle(aIem,nowPage);				
    }
-</script> -->
+</script>
 
 </body>
 </html>
