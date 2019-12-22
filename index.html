@@ -31,6 +31,44 @@ background-color: black;
              xxxx
    </p>
 </div>
+<div class="item">
+   <p style="white-space: pre-wrap;font-family:times>
+             第二页
+             xxx
+             xxxx
+   </p>
+</div>
+   
+<script type="text/javascript">
+   //封装函数、图片显示的部分、传入获取到的div，和被点击的序号
+   function toggle(eles, active) {
+      for(var i = eles.length; i--;) {
+         eles[i].className = "item"; //先让所有div隐藏
+      }
+      eles[active].className = "item active";//再让被点击的序号对应的div 显示
+   }
+   //获取按键和div
+   var prev = document.getElementsByClassName("prev");
+   var next = document.getElementsByClassName("next");
+   var nowPage = 0; //定义当前页，默认值为0；
+   var pageNum = 2; //总页数
+   var aIem = document.getElementsByClassName("item");
+   
+   //下一页
+   next[0].onclick = function () {			
+         nowPage++;					
+         nowPage %= pageNum;
+         toggle(aIem,nowPage);
+   }
+   //上一页
+   prev[0].onclick=function(){
+      nowPage--;
+      if(nowPage ==-1){
+         nowPage = pageNum-1;
+      }
+      toggle(aIem,nowPage);				
+   }
+</script>
    
    
 <audio preload="auto" id="bgaudio" loop="loop" src="song.mp3" controls="controls">
