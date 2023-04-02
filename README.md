@@ -12,5 +12,3 @@
 希望有能对上电波的读者一起交流探讨。
 
 在线阅览地址： https://augustusmyc.github.io/
-
-2019年的旧版本在gitee上保留（之后可能不再维护），地址 http://mayuechi_augustus.gitee.io
